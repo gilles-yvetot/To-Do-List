@@ -1,0 +1,54 @@
+body{
+	background:#f8f8f8;
+	font-family:Arial, Helvetica,sans-serif;
+	font-size:18px;
+	color:#979797;
+}
+
+#addtask{
+	border-top:1px solid #e5e5e5;
+	text-align:center;
+}
+#addtask:hover{
+	color:gray;
+	cursor:pointer;
+}
+
+#taskList{
+	padding: 10px;
+	border: 1px solid #e5e5e5;
+	width:40%;
+	margin:50px auto;
+	border-radius:4px;
+	background: #f1f1f1;
+	min-width: 234px;
+}
+#form {
+	padding: 10px;
+	border: 1px solid #e5e5e5;
+	width:40%;
+	margin:50px auto;
+	border-radius:4px;
+	background: #f1f1f1;
+	min-width: 250px;
+	display: none;
+}
+
+button{
+	display: block;
+	margin: 10px auto;
+	cursor: pointer;
+
+}
+label{
+	width:100px;
+	display: inline-block;
+}
+#selPrio,
+#datetimepicker
+{
+	display: none;
+}
+.inlBl{
+	display: inline-block !important;
+}
