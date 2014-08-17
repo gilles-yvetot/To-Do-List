@@ -19,4 +19,11 @@ function getPriority($i){
 			break;
 	}
 }
+
+function stringify($task){
+	return  '<tr><td>'.$task->name.
+	        '</td><td>'.getPriority($task->priority).
+	        '</td><td>'.((isset($task->due_date))?$task->due_date:'No due date').
+	        '</td><td></td></tr>';
+}
 ?>

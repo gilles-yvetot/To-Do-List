@@ -23,6 +23,19 @@ body{
 	background: #f1f1f1;
 	min-width: 234px;
 }
+#taskList table{
+	text-align: center;
+	width: 100%;
+	font-size: 15px;
+	border-collapse: collapse;
+}
+#taskList table td:nth-child(1){
+	font-size:16px;
+}
+
+#taskList table:nth-child(2) td{
+	text-decoration: line-through;
+}
 #form {
 	padding: 10px;
 	border: 1px solid #e5e5e5;
@@ -51,4 +64,27 @@ label{
 }
 .inlBl{
 	display: inline-block !important;
+}
+.newRow td{
+	  -webkit-animation: blue2gray 3s linear;
+	  -moz-animation:    blue2gray 3s linear; 
+	  -o-animation:      blue2gray 3s linear; 
+	  animation:         blue2gray 3s linear; 
+}
+
+@-webkit-keyframes blue2gray {
+  0%   { background: #99CCFF;}
+  100% { background: #f1f1f1; }
+}
+@-moz-keyframes blue2gray {
+  0%   { background: #99CCFF;}
+  100% { background: #f1f1f1; }
+}
+@-o-keyframes blue2gray {
+  0%   { background: #99CCFF;}
+  100% { background: #f1f1f1; }
+}
+@keyframes blue2gray {
+  0%   { background: #99CCFF;}
+  100% { background: #f1f1f1; }
 }

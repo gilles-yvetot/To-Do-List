@@ -12,26 +12,24 @@
 <body>
 	<div id='taskList'>
 		<table>
-			<tr><th></th><th>Priority</th><th>Due Date</th><th></th></tr>
 			<?php 
 				require('db.php'); 
 				require('core.php'); 
-				try { 
-			        $results = $db->query("SELECT * FROM tasks WHERE status LIKE 'Not Done' ORDER BY due_date DESC");
-			        while( $row = $results->fetch(PDO::FETCH_OBJ)) 
-					{
-				        echo '<tr><td>'.$row->name.
-					        '</td><td>'.getPriority($row->priority).
-					        '</td><td>'.(($row->due_date=='0000-00-00 00:00:00')?$row->due_date:'No due date').
-					        '</td><td></td></tr>'; 
+				try {
+					// Task not done
+			        $results = $db->query("SELECT * FROM tasks WHERE status LIKE 'Not Done' ORDER BY due_date DESC,priority ASC");
+			        if(!empty($results)){
+			        	echo '<tr><th></th><th>Priority</th><th>Due Date</th><th></th></tr>';
+				        while($row = $results->fetch(PDO::FETCH_OBJ)) 
+						{
+					        echo 	stringify($row) ;
+						}
 					}
-					$results = $db->query("SELECT * FROM tasks WHERE status LIKE 'Done' ORDER BY due_date DESC");
+					echo '</table><table>';
+					$results = $db->query("SELECT * FROM tasks WHERE status LIKE 'Done' ORDER BY due_date DESC, priority ASC");
 			        while( $row = $results->fetch(PDO::FETCH_OBJ)) 
 					{
-				        echo '<tr><td>'.$row->name.
-					        '</td><td>'.getPriority($row->priority).
-					        '</td><td>'.(isset($row->due_date)?$row->due_date:'No due date').
-					        '</td><td></td></tr>'; 
+					    echo  	stringify($row) ;
 					}
 
 			    } catch(PDOExecption $e) { 
