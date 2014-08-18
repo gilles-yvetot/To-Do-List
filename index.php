@@ -13,8 +13,8 @@
 	<div id='taskList'>
 		<table>
 			<?php 
-				require('db.php'); 
-				require('core.php'); 
+				require('Models/db.php'); 
+				require('Models/Task.php'); 
 				try {
 					// Task not done
 			        $results = $db->query("SELECT * FROM tasks WHERE status LIKE 'Not Done' ORDER BY due_date DESC,priority ASC");
@@ -22,14 +22,14 @@
 			        	echo '<tr><th></th><th>Priority</th><th>Due Date</th><th></th></tr>';
 				        while($row = $results->fetch(PDO::FETCH_OBJ)) 
 						{
-					        echo 	stringify($row) ;
+					        echo 	Task::stringify($row) ;
 						}
 					}
 					echo '</table><table>';
 					$results = $db->query("SELECT * FROM tasks WHERE status LIKE 'Done' ORDER BY due_date DESC, priority ASC");
 			        while( $row = $results->fetch(PDO::FETCH_OBJ)) 
 					{
-					    echo  	stringify($row) ;
+					    echo  	Task::stringify($row) ;
 					}
 
 			    } catch(PDOExecption $e) { 

@@ -20,7 +20,7 @@ function addTask(){
 	if($('#selPrio').css('display') != 'none' && $('#selPrio').val())
 		priority =$('#selPrio').val();
 	if(taskName){
-		$.post('actions/addTask.php', { task:taskName, dueOn:dueDate, prio:priority }, 
+		$.post('Controllers/addTask.php', { task:taskName, dueOn:dueDate, prio:priority }, 
 			function(data) {	
 				if (data){	insertTaskInTable(data);	}
 			}
