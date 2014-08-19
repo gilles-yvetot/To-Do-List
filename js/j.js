@@ -56,10 +56,29 @@ function deleteTask(id){
 	}
 }
 
-function markAsDone(e,id){
+function markAsDone(e,rowId){
 	e = (e) ? e : window.event;
 	var src = e.srcElement || e.target;
-	alert(src.parentNode.parentNode.innerHTML);
+	$.post('Controllers/editTask.php', { status:'Done',id:rowId }, 
+		function(data) {	
+			if (data){
+				src.parentNode.parentNode.parentNode.removeChild(src.parentNode.parentNode);
+				insertTaskInTable(data);
+			}
+		}
+	);
+}
+function markAsNotDone(e,rowId){
+	e = (e) ? e : window.event;
+	var src = e.srcElement || e.target;
+	$.post('Controllers/editTask.php', { status:'Not Done',id:rowId }, 
+		function(data) {	
+			if (data){
+				src.parentNode.parentNode.parentNode.removeChild(src.parentNode.parentNode);
+				insertTaskInTable(data);
+			}
+		}
+	);
 }
 
 function updateTask(e,rowId){
