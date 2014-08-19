@@ -7,7 +7,8 @@
 
     if(isset($taskName)){
         $newRow = Task::insert($taskName, $dueDate, $priority);
-        echo Task::stringify($newRow);
+        $task = new Task($newRow);
+        echo $task->__toString();
     }
 
 ?>

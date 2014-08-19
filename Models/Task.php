@@ -16,10 +16,15 @@
 	    }
 
 	    public function __toString(){
-	    	return  '<tr><td>'.$this->name.
-			        '</td><td>'.self::getPriorityString($this->priority).
-			        '</td><td>'.((isset($this->due_date))?$this->due_date:'No due date').
-			        '</td><td></td></tr>';
+	    	return  '<tr> <td>'.$this->name.
+				        '</td><td>'.self::getPriorityString($this->priority).
+				        '</td><td>'.((isset($this->due_date))?$this->due_date:'No due date').
+				        '</td><td><i class="fa fa-edit" title="Edit" onclick="editTask(event,'.$this->id.')"></i>'
+				        		.'<i class="fa fa-trash-o" title="Delete" onclick="deleteTask('.$this->id.')"></i>'
+				        		.(($this->status != 'Done')?
+				        			'<i title="Mark as done" class="fa fa-check-square-o" onclick="markAsDone(event,'.$this->id.')"></i>'
+				        			:'<i title="Mark as not done" class="fa fa-check-square" onclick="markAsNotDone(event,'.$this->id.')"></i>'
+				        		).'</td></tr>';
 	    }
 
 
@@ -47,18 +52,28 @@
 	        } 
 		}
 
-		public static function edit($task){
+		public static function edit($taskName, $priotity, $dueDate, $status, $id){
 			require('db.php');
-	        $sth = $db->prepare("UPDATE tasks  SET name =?, priority=?, due_date=?, status=? WHERE id=?"); 
+			// we can update the row or marked it as done so we need to test if the status is defined
+			$qu = (isset($status) && !empty($status))?
+					 " UPDATE tasks  SET status=? WHERE id=?"
+				   : " UPDATE tasks  SET name =?, priority=?, due_date=? WHERE id=?";
+			$params = array();
+			if (isset($status) && !empty($status))
+				array_push($params, $status,$id);
+			else
+				array_push($params, $taskName, $priotity, $dueDate ,$id);
+
+	        $sth = $db->prepare($qu); 
 	        try { 
 	            $db->beginTransaction(); 
-	            $sth->execute(array($task->name, $task->priority, $task->dueDate, $task->status, $task->id)); 
-
-	            $sth = $db->prepare("SELECT  * FROM tasks WHERE name=? AND id=?");
-	            $sth->execute( array($task->task, $db->lastInsertId())); 
+	            $sth->execute($params); 
+	            
+	            $sth = $db->prepare("SELECT  * FROM tasks WHERE id=?");
+	            $sth->execute(array($id)); 
 	            $new_row=$sth->fetch(PDO::FETCH_OBJ);
 	            $db->commit(); 
-	            echo stringify($new_row);
+	            return $new_row;
 
 	        } catch(PDOExecption $e) { 
 	            $db->rollback(); 
@@ -106,11 +121,20 @@
 			}
 		}
 		public static function stringify($task){
-	    	return  '<tr><td>'.$task->name.
-			        '</td><td>'.self::getPriorityString($task->priority).
-			        '</td><td>'.((isset($task->due_date))?$task->due_date:'No due date').
-			        '</td><td></td></tr>';
+	    	return  '<tr> <td>'.$task->name.
+				        '</td><td>'.self::getPriorityString($task->priority).
+				        '</td><td>'.((isset($task->due_date))?$task->due_date:'No due date').
+				        '</td><td><i class="fa fa-edit" title="Edit" onclick="editTask(event,'.$task->id.')"></i>'
+				        		.'<i class="fa fa-trash-o" title="Delete" onclick="deleteTask('.$task->id.')"></i>'
+				        		.(($task->status != 'Done')?
+				        			'<i title="Mark as done" class="fa fa-check-square-o" onclick="markAsDone(event,'.$task->id.')"></i>'
+				        			:'<i title="Mark as not done" class="fa fa-check-square" onclick="markAsNotDone(event,'.$task->id.')"></i>'
+				        		).'</td></tr>';
 	    }
 
 	}	
 ?>
+
+
+
+

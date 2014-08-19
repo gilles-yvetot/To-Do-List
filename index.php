@@ -17,7 +17,7 @@
 				require('Models/Task.php'); 
 				try {
 					// Task not done
-			        $results = $db->query("SELECT * FROM tasks WHERE status LIKE 'Not Done' ORDER BY due_date DESC,priority ASC");
+			        $results = $db->query("SELECT * FROM tasks WHERE status LIKE 'Not Done' ORDER BY due_date ASC,priority ASC");
 			        if(!empty($results)){
 			        	echo '<tr><th></th><th>Priority</th><th>Due Date</th><th></th></tr>';
 				        while($row = $results->fetch(PDO::FETCH_OBJ)) 
@@ -26,7 +26,7 @@
 						}
 					}
 					echo '</table><table>';
-					$results = $db->query("SELECT * FROM tasks WHERE status LIKE 'Done' ORDER BY due_date DESC, priority ASC");
+					$results = $db->query("SELECT * FROM tasks WHERE status LIKE 'Done' ORDER BY due_date ASC, priority ASC");
 			        while( $row = $results->fetch(PDO::FETCH_OBJ)) 
 					{
 					    echo  	Task::stringify($row) ;
@@ -48,7 +48,7 @@
 		<label>Task Name</label>
 		<input type='text' id='taskName' placeholder='task name...'/><br/>
 		<label>DueDate <input type='checkbox' onclick='toggleId("datetimepicker")'></label>
-		<input id='datetimepicker' type='text' ><br/>
+		<input class='datetimepicker' type='text' ><br/>
 		<label>Priority <input type='checkbox' onclick='toggleId("selPrio")'></label>
 		<select id='selPrio'>
 			<option value='1'>Very High</option>
