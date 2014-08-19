@@ -20,7 +20,7 @@
 				        '</td><td>'.self::getPriorityString($this->priority).
 				        '</td><td>'.((isset($this->due_date))?$this->due_date:'No due date').
 				        '</td><td><i class="fa fa-edit" title="Edit" onclick="editTask(event,'.$this->id.')"></i>'
-				        		.'<i class="fa fa-trash-o" title="Delete" onclick="deleteTask('.$this->id.')"></i>'
+				        		.'<i class="fa fa-trash-o" title="Delete" onclick="deleteTask(event,'.$this->id.')"></i>'
 				        		.(($this->status != 'Done')?
 				        			'<i title="Mark as done" class="fa fa-check-square-o" onclick="markAsDone(event,'.$this->id.')"></i>'
 				        			:'<i title="Mark as not done" class="fa fa-check-square" onclick="markAsNotDone(event,'.$this->id.')"></i>'
@@ -52,7 +52,7 @@
 	        } 
 		}
 
-		public static function edit($taskName, $priotity, $dueDate, $status, $id){
+		public static function edit($taskName, $priority, $dueDate, $status, $id){
 			require('db.php');
 			// we can update the row or marked it as done so we need to test if the status is defined
 			$qu = (isset($status) && !empty($status))?
@@ -62,7 +62,7 @@
 			if (isset($status) && !empty($status))
 				array_push($params, $status,$id);
 			else
-				array_push($params, $taskName, $priotity, $dueDate ,$id);
+				array_push($params, $taskName, $priority, $dueDate ,$id);
 
 	        $sth = $db->prepare($qu); 
 	        try { 
@@ -86,12 +86,12 @@
 	        $sth = $db->prepare("DELETE FROM tasks WHERE id=?"); 
 	        try { 
 	            $db->beginTransaction(); 
-	            $sth->execute($id); 
-	            $count = $del->rowCount();
+	            $sth->execute(array($id)); 
+	            $count = $sth->rowCount();
 	            $db->commit();
 
 	            if(isset($count) && !empty($count) && $count >0)
-	            	echo 'Deleted';
+	            	echo 'DELETED';
 	            else 
 	            	echo 'Error while deleting';
 
@@ -125,7 +125,7 @@
 				        '</td><td>'.self::getPriorityString($task->priority).
 				        '</td><td>'.((isset($task->due_date))?$task->due_date:'No due date').
 				        '</td><td><i class="fa fa-edit" title="Edit" onclick="editTask(event,'.$task->id.')"></i>'
-				        		.'<i class="fa fa-trash-o" title="Delete" onclick="deleteTask('.$task->id.')"></i>'
+				        		.'<i class="fa fa-trash-o" title="Delete" onclick="deleteTask(event,'.$task->id.')"></i>'
 				        		.(($task->status != 'Done')?
 				        			'<i title="Mark as done" class="fa fa-check-square-o" onclick="markAsDone(event,'.$task->id.')"></i>'
 				        			:'<i title="Mark as not done" class="fa fa-check-square" onclick="markAsNotDone(event,'.$task->id.')"></i>'

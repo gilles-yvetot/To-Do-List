@@ -63,8 +63,8 @@ label{
 	width:100px;
 	display: inline-block;
 }
-#selPrio,
-#datetimepicker
+#form #selPrio,
+#form .datetimepicker
 {
 	display: none;
 }

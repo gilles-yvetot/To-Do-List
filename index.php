@@ -47,9 +47,9 @@
 	<div id='form'>
 		<label>Task Name</label>
 		<input type='text' id='taskName' placeholder='task name...'/><br/>
-		<label>DueDate <input type='checkbox' onclick='toggleId("datetimepicker")'></label>
+		<label>DueDate <input type='checkbox' id='cbxDueDate' onclick='toggleId("#form .datetimepicker")'></label>
 		<input class='datetimepicker' type='text' ><br/>
-		<label>Priority <input type='checkbox' onclick='toggleId("selPrio")'></label>
+		<label>Priority <input type='checkbox' id='cbxPriority' onclick='toggleId("#form #selPrio")'></label>
 		<select id='selPrio'>
 			<option value='1'>Very High</option>
 			<option value='2'>High</option>

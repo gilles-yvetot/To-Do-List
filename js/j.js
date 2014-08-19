@@ -7,17 +7,17 @@ function showForm(){
 	$('#form').css('display','block');
 }
 
-function toggleId(id){
-	$('#'+id).toggleClass('inlBl');
+function toggleId(where){
+	$(where).toggleClass('inlBl');
 }
 
 function addTask(){
 	var taskName='',dueDate='',priority='';
 	
 	taskName =$('#taskName').val();
-	if($('#datetimepicker').css('display') != 'none' && $('#datetimepicker').val())
+	if($('#cbxDueDate').is(':checked') && $('#datetimepicker').val())
 		dueDate =$('#datetimepicker').val();
-	if($('#selPrio').css('display') != 'none' && $('#selPrio').val())
+	if($('#cbxPriority').is(':checked') && $('#selPrio').val())
 		priority =$('#selPrio').val();
 	if(taskName){
 		$.post('Controllers/addTask.php', { task:taskName, dueOn:dueDate, prio:priority }, 
@@ -50,9 +50,19 @@ function createPriorityInput(val){
 		+"</select>";
 }
 
-function deleteTask(id){
+function deleteTask(e,rowId){
 	var r = confirm("Are you sure you want to delete this task?");
 	if (r == true) {
+		e = (e) ? e : window.event;
+		var src = e.srcElement || e.target;
+		$.post('Controllers/deleteTask.php', { id:rowId }, 
+			function(data) {
+				if (data && data.trim() == 'DELETED'){
+					src.parentNode.parentNode.parentNode.removeChild(src.parentNode.parentNode);
+				}
+				else 	alert(data);
+			}
+		);
 	}
 }
 
